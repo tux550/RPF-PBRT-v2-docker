@@ -1,0 +1,159 @@
+SOURCE CODE FOR RANDOM PARAMETER FILTERING (RPF)
+
+This package is a C++ implementation of the Random Parameter Filtering (RPF) 
+algorithm described in:
+
+
+Pradeep Sen and Soheil Darabi. 2011. "Implementation of Random Parameter Filtering"
+Implementation of random parameter filtering". Tech. Rep. EECE-TR-11-0004, 
+University of New Mexico, Sep. 2011
+
+
+Pradeep Sen and Soheil Darabi. 2012. "On filtering the noise from the random 
+parameters in Monte Carlo rendering". ACM Trans. Graph. 31, 3, Article 18, June 2012  
+
+
+Initial release implementation by Steve Bako, 2015, based on the original RPF
+source code.
+
+
+****************************************NOTE****************************************
+
+THE UNIVERSITY OF CALIFORNIA AT SANTA BARBARA AND THE AUTHORS MAKE NO 
+REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THIS SOFTWARE.
+
+THIS SOURCE CODE IS FOR NON_COMMERIAL, RESEARCH PURPOSES ONLY.  FOR COMMERCIAL
+INQUIRIES REGARDING THE RPF ALGORITHM OR ITS SOURCE CODE, PLEASE CONTACT 
+MS. JOVAN HEUSSER IN THE UNM TECHNOLOGY TRANSFER OFFICE AT (505) 272-7908 OR VIA 
+EMAIL AT jheusser@stc.unm.edu FOR MORE INFORMATION.
+
+
+------------------------------------------------------------------------------------
+I. OVERVIEW
+
+This algorithm renders a specified number of samples per pixel with pbrt and saves 
+relevant information for each sample. This data is then passed to the RPF algorithm,
+which filters the noisy image based on the mutual information between scene features
+and random parameters. The current code expects to find scene files in the "scenes" 
+folder and will output results there. The output includes the noisy image, the 
+filtered image, and timing.
+
+The code was tested on Windows 7 x64 and Windows 8.1 x64 with Visual Studio 2012.
+
+
+------------------------------------------------------------------------------------
+II. RUNNING THIS PACKAGE 
+
+1. Navigate to pbrt-v2-rpf\src\pbrt.vs2012\
+
+2. Open the solution (pbrt.sln) with Visual Studio 2012.
+
+3. Build the solution. See the pbrt README for additional info on how to build pbrt.
+
+4. Run the code through either Visual Studio or the command line using 
+   pbrt.exe in the pbrt-v2-rpf\bin\ folder. The general command line 
+   arguments from the "scenes" folder are as follows:
+   
+   ./../bin/pbrt.exe scenename --spp samplenum 
+   
+   For example, to run the Conference scene from the "scenes" folder with 8
+   samples per pixel, the command is:
+   
+   ./../bin/pbrt.exe Conference.pbrt --spp 8
+   
+   The three outputs (noisy image, filtered result, and timing) will be output in 
+   the scenes directory. For example, for the Conference command above, the outputs
+   would be:
+   
+   Conference_MC_0008.exr (the 8spp Monte Carlo image)
+   Conference_RPF_flt.exr (the filtered result from RPF)
+   Conference_timing.txt (time for rendering and filtering)
+
+   
+------------------------------------------------------------------------------------
+III. CODE DETAILS
+
+We added two additional projects to pbrt. The first is the "SampleWriter" project, 
+which is a static class that will hold the raw data from pbrt.  Since we need to 
+save data that is not output by default from the renderer, we modified some files 
+in pbrt to save this in the static SampleWriter class.  These modifications can be 
+found by doing a search for the macro "SAVE_SAMPLES", which surrounds all calls to 
+the SampleWriter. To revert back to original pbrt without saving any samples or 
+filtering, set "SAVE_SAMPLES" to 0 in "Globals.h" of the SampleWriter project.
+
+The second project added is the "RPF" project, which contains our post-process
+algorithm. Specifically, there is a SampleSet class which is used to either hold all
+the samples for the entire image or to hold clustered samples for each pixel being 
+processed.  Furthermore, this class calculates the pdfs and mutual information that
+are used to determine the dependencies/filter weights. 
+
+To better understand the code, we suggest you start with the RPF function in 
+"RPF.cpp". For each pixel, this function first clusters the samples in the 
+preProcessSamples function. Next, the computeFeatureWeights function sets up the 
+pdfs, calculates mutual information, and determines the dependencies between the 
+parameters and scene data. Finally, we filter the clustered samples based on these
+dependencies and update the color (filterColorSamples and updateColor functions). 
+
+Also, please refer to "Globals.h" in the "RPF" project to see global variables and 
+parameters used throughout the code.
+ 
+
+------------------------------------------------------------------------------------
+IV. DIFFERENCES FROM TECHNICAL REPORT
+
+We have made a few minor changes to the RPF algorithm since the release of the 
+technical report and publication of the original algorithm back in 2011, because
+we found these improved performance slightly.  We highlight these changes below:
+
+- Variance: In the tech report we used 0.02 for indoor path traced scenes and 0.002 
+  for the rest. In the release, we use 0.05 for ALL scenes to simplify the
+  run-time process.
+
+- WorldStdFactor: The number of standard deviations used in clustering world 
+  position was changed from 30 to 50.
+
+- Block Sizes: We originally had 55, 35, 17, and 7. Here we use 45, 30, 15, and 5.
+
+- Small edits to lines 15 and 30 of Algorithm 3 pseudocode in the tech report 
+  (see lines 338 and 380, respectively, of "RPF.cpp" in the release).  These 
+  slight changes increase the values of the dependencies used in calculating the 
+  filter weights.
+
+- Small edits to lines 2 and 3 of Algorithm 4 pseudocode in the tech report (see 
+  lines lines 408 and 409, respectively, of "RPF.cpp" in the release). We found 
+  results improved slightly by increasing the variance parameter after each 
+  iteration. Furthermore, the filter sigmas are directly, not inversely, 
+  proportional to the variance parameter.
+
+- Finally, we added parameters to scale the alpha and beta filter weights 
+  appropriately (alphaFactor, normFactor, and textureFactor in the code).
+  This slightly improved results by giving more importance to different 
+  terms of the cross-bilateral filter.
+  
+-------------------------------------------------------------------------
+V. SCENE DATA
+
+To keep this package small, we excluded some of the original scene data, which 
+can be downloaded and used from the pbrt website:
+
+http://www.pbrt.org/scenes.php
+
+1. Download pbrt-scenes.zip
+
+2. Extract zip file. Move the contents of the pbrt-scenes folder to pbrt-v2-rpf/scenes.
+
+Note: There are some files already included in our RPF "scenes/geometry" and "scenes/textures"
+directories that do not come with the default zip file from the pbrt website. Simply merge
+these existing folders with the ones downloaded from pbrt.org.
+
+------------------------------------------------------------------------------------
+VI. VERSION HISTORY
+
+v1.0 - Initial release   (June 2015)
+
+------------------------------------------------------------------------------------
+
+If you find any bugs or have comments/questions, please contact Steve Bako at 
+stevebako@umail.ucsb.edu.
+
+Santa Barbara, California (2015)

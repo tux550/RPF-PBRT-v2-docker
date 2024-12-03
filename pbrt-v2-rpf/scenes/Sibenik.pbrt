@@ -1,0 +1,51 @@
+Scale -1 1 1
+Accelerator "bvh"
+
+Film "image" 
+    "float  gamma"        [0.2]
+    "integer xresolution" [1024] "integer yresolution" [1024]
+    "string filename"     ["sibenik.exr"]
+
+#Sampler "bandwidth" "integer pixelsamples" [32] "integer #niterations" [8] 
+
+#Renderer "twostages"
+
+#PixelFilter "gaussian"
+
+Sampler "lowdiscrepancy" 
+	 "integer pixelsamples" [16384] 
+
+SurfaceIntegrator "path"
+"integer maxdepth" [8]
+
+PixelFilter "box"
+
+LookAt  25 2.5 4.3   -.261 -.031 1.252   0 0 1
+
+Camera "perspective"
+    "float fov" [50.1343]
+    "float focaldistance" [15]
+    "float lensradius" [.1]
+
+WorldBegin
+
+AttributeBegin
+Rotate 320 0 0 1
+LightSource "infinite" "integer nsamples" [1] #[4]
+    "string mapname" ["textures/skylight-day.exr"  ]
+AttributeEnd
+
+# Light above
+AttributeBegin
+AreaLightSource "area" "color L" [15 15 15] # "integer nsamples" [4]
+Rotate 180 1 0 0
+Translate 0 0 -20
+Shape "disk" "float radius" [4]
+AttributeEnd
+
+Include "geometry/gargoyle.pbrt"
+
+Include "geometry/sibenik.pbrt"
+
+WorldEnd
+

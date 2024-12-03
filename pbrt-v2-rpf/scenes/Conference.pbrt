@@ -1,0 +1,40 @@
+
+LookAt -100 400 -500   300 200 0   0 1 0
+Camera "perspective" "float fov" [70] "float lensradius" [.005] "float focaldistance" [50]
+
+Accelerator "bvh"
+
+Film "image"
+    "integer xresolution" [1024] "integer yresolution" [1024]
+
+Sampler "lowdiscrepancy" "integer pixelsamples" [8] 
+
+PixelFilter "box"
+
+SurfaceIntegrator "path" "integer maxdepth" [1]
+
+WorldBegin
+
+#AttributeBegin
+#CoordSysTransform "camera"
+#LightSource "point" "color I" [500000 500000 500000]
+#AttributeEnd
+
+#40 65 -13 
+#80 10
+AttributeBegin
+AreaLightSource "area" "color L" [200 180 180] "integer nsamples" [1]
+#Translate 500 650 -130 # TABLE CENTER
+Translate 500 650 -330 # OFF SCREEN
+Rotate 90 0 1 0
+#Shape "sphere" "float radius" [100]
+#Shape "disk" "float radius" [100]
+Shape "cylinder" "float radius" [10] "float zmin" [-100] "float zmax" [100]
+AttributeEnd
+
+#LightSource "infinite" "string mapname" ["textures/glacier_latlong.exr"]
+#	"integer nsamples" [8]
+
+Include "geometry/conference.pbrt"
+
+WorldEnd
