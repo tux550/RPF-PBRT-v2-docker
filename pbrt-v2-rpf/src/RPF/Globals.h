@@ -5,6 +5,9 @@
 #include <random>
 #include "CImg.h"
 
+// MYEDIT : Flag to enable/disable RPF
+#define ENABLE_RPF 1
+
 void RPF(char* outputFolder, float* pbrtData, size_t pbrtWidth, 
 					  size_t pbrtHeight, size_t pbrtSpp, size_t pbrtSampleLength, int posCount, int colorCount, int featureCount, int randomCount, FILE* datafp);
 

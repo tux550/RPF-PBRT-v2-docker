@@ -14,6 +14,7 @@
 // ---
 #include "../core/timer.h"
 
+
 using namespace std;
 
 void RPF(CImg<float>* rpfImg, CImg<float>* origImg);
@@ -36,32 +37,24 @@ void RPF(char* outputFolder, float* pbrtData, size_t pbrtWidth,
 	timer.Start();
 
 	// Get samples from file and add to list of samples
-	fprintf(stdout, "[START] Init samples\n");
 	initializeData(pbrtData, pbrtWidth, pbrtHeight, pbrtSpp, pbrtSampleLength, posCount, colorCount, featureCount, randomCount, datafp);
-	fprintf(stdout, "[END] Init samples\n");
 
 	// Initialize image
 	CImg<float>* rpfImg = new CImg<float>(width, height, 1, 3);
 	CImg<float>* origImg = new CImg<float>(width, height, 1, 3);
 
 	// Perform random parameter filtering
-	fprintf(stdout, "[START] RPF func\n");
 	RPF(rpfImg, origImg);
-	fprintf(stdout, "[END] funcRPF\n");
 
 	// Save filtered image
-	fprintf(stdout, "[START] Save filtered image\n");
 	char outputName[1000];
 	sprintf(outputName, "%s_RPF_flt.exr", outputFolder);
 	float* imgData = new float[NUM_OF_COLORS * pbrtWidth * pbrtHeight];
 	WriteEXRFile(outputName, (int) pbrtWidth, (int) pbrtHeight, rpfImg->data());
-	fprintf(stdout, "[END] Save filtered image\n");
 
 	// Save original image
-	fprintf(stdout, "[START] Save original image\n");
 	sprintf(outputName, "%s_MC_%04d.exr", outputFolder, pbrtSpp);
 	WriteEXRFile(outputName, (int) pbrtWidth, (int) pbrtHeight, origImg->data());
-	fprintf(stdout, "[END] Save original image\n");
 
 	// Clean up
 	delete rpfImg;

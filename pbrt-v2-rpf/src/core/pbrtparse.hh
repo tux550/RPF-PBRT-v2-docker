@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_BUILD_LINUX_STATS_CORE_PBRTPARSE_HH_INCLUDED
-# define YY_YY_BUILD_LINUX_STATS_CORE_PBRTPARSE_HH_INCLUDED
+#ifndef YY_YY_BUILD_LINUX_RELEASE_CORE_PBRTPARSE_HH_INCLUDED
+# define YY_YY_BUILD_LINUX_RELEASE_CORE_PBRTPARSE_HH_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 1
@@ -109,13 +109,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 157 "build/linux-stats/core/pbrtparse.yy"
+#line 157 "build/linux-release/core/pbrtparse.yy"
 
 char string[1024];
 float num;
 ParamArray *ribarray;
 
-#line 119 "build/linux-stats/core/pbrtparse.hh"
+#line 119 "build/linux-release/core/pbrtparse.hh"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -130,4 +130,4 @@ extern YYSTYPE yylval;
 int yyparse (void);
 
 
-#endif /* !YY_YY_BUILD_LINUX_STATS_CORE_PBRTPARSE_HH_INCLUDED  */
+#endif /* !YY_YY_BUILD_LINUX_RELEASE_CORE_PBRTPARSE_HH_INCLUDED  */

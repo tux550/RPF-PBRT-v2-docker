@@ -42,6 +42,7 @@ void initializeData(float* pbrtData, size_t pbrtWidth, size_t pbrtHeight,
 // ALGORITHM 1 FROM TECHNICAL REPORT
 void RPF(CImg<float>* rpfImg, CImg<float>* origImg) { 
 
+	#if ENABLE_RPF
 	// Set up the desired number of threads for multithreading (see globals.h)
 	omp_set_num_threads(NUM_OF_THREADS);
 
@@ -104,8 +105,6 @@ void RPF(CImg<float>* rpfImg, CImg<float>* origImg) {
 
 		// Multithreaded portion
 		// Loop through each pixel
-		fprintf(stdout, "#Loop Through Pixels\n");
-
 		#pragma omp parallel 
 		{
 			#pragma omp for schedule(dynamic) nowait 
@@ -158,7 +157,6 @@ void RPF(CImg<float>* rpfImg, CImg<float>* origImg) {
 
 			}
 		} 
-		fprintf(stdout, "#End Loop Through Pixels\n");
 
 		// Save the pixel colors for all the pixels calculated above into the main set 
 		// containing all the data for the entire image (set cPrime to cDoublePrime)
@@ -183,6 +181,7 @@ void RPF(CImg<float>* rpfImg, CImg<float>* origImg) {
 
 	// Samples in image have been filtered. Use box filter to compute final pixel values
 	boxFilter(rpfImg, false); 
+	#endif
 	boxFilter(origImg, true);
 
 	// Clean up
