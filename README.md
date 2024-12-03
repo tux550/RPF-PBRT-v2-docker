@@ -34,6 +34,15 @@ Las scripts de compilación crean el archivo ejecutable en la ruta `pbrt-v2-rpf/
 Donde `<archivo de salida>` es el archivo donde se guardará la imagen renderizada y `<archivo de escena>` es el archivo de escena a renderizar.
 
 
+## Experimentación
+
+Se provee una script para experimentación: `runtest.py`. Esta script corre el programa con diferentes parámetros y guarda los resultados en un archivo CSV. Para correr la script, se debe de correr el siguiente comando:
+
+```bash
+python3 runtest.py
+```
+
+Tomar en consideración que para deshabilitar el RPF se debe de cambiar la flag `ENABLE_RPF` en el archivo `pbrt-v2-rpf/src/RPF/Globals.h` a `0`.
 
 
 
