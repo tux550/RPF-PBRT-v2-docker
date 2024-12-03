@@ -1,7 +1,7 @@
 # Random Parameter Filtering
 
 ## Descripción
-El siguiente proyecto es una modernización y dockerización del proyecto de implementación de [RandomParameterFiltering (RPF) en PBRT-v2](http://civc.ucsb.edu/graphics/Papers/Sen2011_RPF/). El proyecto original desarrollado por Pradeep Sen y Soheil Darabi.
+El siguiente proyecto es una actualización y encapsulamiento del proyecto de implementación de [RandomParameterFiltering (RPF) en PBRT-v2](http://civc.ucsb.edu/graphics/Papers/Sen2011_RPF/). El proyecto original desarrollado por Pradeep Sen y Soheil Darabi.
 
 ## Docker
 Se provee una imagen de Docker para facilitar la compilación y ejecución del proyecto. Adicionalmente, un archivo make permite interactuar con la imagen de Docker de manera más sencilla.
