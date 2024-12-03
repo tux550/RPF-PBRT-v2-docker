@@ -7,7 +7,7 @@ Accelerator "bvh"
 Film "image"
     "integer xresolution" [1024] "integer yresolution" [1024]
 
-Sampler "lowdiscrepancy" "integer pixelsamples" [32] 
+Sampler "lowdiscrepancy" "integer pixelsamples" [64] 
 
 PixelFilter "box"
 
