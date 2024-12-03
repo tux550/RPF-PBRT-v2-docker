@@ -18,7 +18,7 @@ make shell
 
 ## Compilación
 
-Dentro del entorno dockerizado debe de correr las scripts de scons para compilar el proyecto. 
+Dentro del entorno docker debe de correr las scripts de scons para compilar el proyecto. 
 ```bash
 cd ./pbrt-v2-rpf/src && scons
 ```
