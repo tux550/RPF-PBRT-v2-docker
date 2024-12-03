@@ -46,9 +46,9 @@ void RPF(char* outputFolder, float* pbrtData, size_t pbrtWidth,
 	// Perform random parameter filtering
 	RPF(rpfImg, origImg);
 
+	char outputName[1000];
 	#if ENABLE_RPF
 	// Save filtered image
-	char outputName[1000];
 	sprintf(outputName, "%s_RPF_flt.exr", outputFolder);
 	float* imgData = new float[NUM_OF_COLORS * pbrtWidth * pbrtHeight];
 	WriteEXRFile(outputName, (int) pbrtWidth, (int) pbrtHeight, rpfImg->data());
@@ -62,7 +62,9 @@ void RPF(char* outputFolder, float* pbrtData, size_t pbrtWidth,
 	delete rpfImg;
 	delete origImg;
 	delete samples;
+	#if ENABLE_RPF
 	delete[] imgData;
+	#endif
 
 	// Wait for user
 	printf("Finished with RPF\n");
