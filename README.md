@@ -20,7 +20,7 @@ make shell
 
 Dentro del entorno dockerizado debe de correr las scripts de scons para compilar el proyecto. 
 ```bash
-cd pbrt-v2-rpf/src && scons
+cd ./pbrt-v2-rpf/src && scons
 ```
 
 ## Ejecución
