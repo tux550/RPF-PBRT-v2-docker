@@ -15,8 +15,8 @@ OUTPUT_FOLDER = "./output"
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 # Define the parameters to test
-parameters_rpf = [8, 16, 32]
-vanilla_rpf = [8, 16, 32, 128, 1024, 4096, 8192]  
+parameters_rpf = [8, 16, 32, 64]
+vanilla_rpf = [8, 16, 32, 64]  
 
 def run_command(command, log_file):
     """Runs a shell command and redirects its output to a log file."""

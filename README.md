@@ -1,5 +1,9 @@
 # Random Parameter Filtering
 
+## Integrantes
+* Rodrigo Gabriel Salazar Alva
+* Alvaro Guerrero
+
 ## Descripción
 El siguiente proyecto es una actualización y encapsulamiento del proyecto de implementación de [RandomParameterFiltering (RPF) en PBRT-v2](http://civc.ucsb.edu/graphics/Papers/Sen2011_RPF/). El proyecto original desarrollado por Pradeep Sen y Soheil Darabi.
 

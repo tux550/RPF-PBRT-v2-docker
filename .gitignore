@@ -1,8 +1,7 @@
 results
-
 logs
-imgs
 output
+tmp
 
 .vscode
 *.zip
